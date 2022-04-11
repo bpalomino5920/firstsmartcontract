@@ -1,0 +1,113 @@
+// pragram solidity is defines our compiler version (0.8.4) for solidity
+pragma solidity ^0.8.4;
+
+// ^ the uptick arrow defines a range compile version after the non zero
+//digit upwards to the next increment of the non zero number
+
+// the very first step to write a smart contract - 'contract {name} { }'
+// in solidity everything is explicity declared
+
+contract CrpytoToken {
+    
+    // what if we want to store addresses and then give each address a specific
+    // number or index - mapping
+    // mapping: acts like a dictionary to store data
+    // mapping takes a key which maps to a value
+    // mapping(key=> value) public mapName
+    mapping(address => uint) public balances;
+
+    // all the code to write smart contacts go in here
+    // objects in programming are an abstract datatype
+    // with the ability for inheritance
+    // create a contract called LearningSolidity
+
+    // whenever you write any expression in solidity
+    // you have to use a semicolon to close the expression
+    // uint public tokens = 400; //assigned 400 tokens
+    // uint private totalSupply = 7;
+
+    // we only want the msg.sender(the current caller)
+    // it can mint tokens
+    // minter is an address
+    address public minter;
+
+    // Events allow clients to react to specific contract
+    // changes that you declare (one way logging of transactions)
+    // types of events: Sent Transfer Allow
+    // events take two steps: 1. it is setting it up
+    // 2. emitting the event
+
+    // preconditioned agruments (inputs) we should pass
+    event Sent(address, address to, uint amount);
+
+    // a constructor is a special type of function
+    // that gets called immediately upon deployment
+    // a function is just a set of instructions bundled together
+    constructor( /* add agruments */ ) {
+        minter = msg.sender;
+
+    }
+
+    // building a minting function (set of instructions) to mint tokens
+    // then we can call that funtion to execute those instructions
+    // and that is how we get our code to do things!
+    // functions are self contained modules of code
+    // that perform tasks for us
+
+    function mint(address receiver, uint amount) public  {
+        // make sure that the only person who can mint
+        // tokens is the owner of this contract
+
+        // requirement method in solidity
+        // requires evaluates the truthiness within
+        // its parenthesis
+        // equivalates (is equal to)
+        require(msg.sender == minter);
+
+        // sets the amount to a specific address
+        // if an address already has 7 tokens and we mint again
+        // with 3 more tokens...it will update the amount = 3 tokens
+        // balances[receiver] = balances[receiver] + amount;
+        balances[receiver] += amount;
+
+    }
+
+    // Exercise Time - Time to challenge your mind!
+    /*
+    1. Write a function called send where the signature takes
+    the arguments receiver and amount. (similar to mint function)
+    2. Use our mapping to update the msg.sender balance to decrement
+    by the amount being inputted (argument amount)
+    3. Use our mapping to update the receiver balnce to increment by the amount
+    being inputted (arg. amount)
+
+    Bonus ** write the second step for the event Sent with the according
+    inputs HINT use the emit keyword!
+    */
+
+    // Sends an amount of existing coins
+    // from any caller to an address
+    function send(address receiver, uint amount) public {
+        balances[msg.sender] -= amount; //sender should have less tokens when sending
+        balances[receiver] += amount; //receiver should be gaining tokens
+        emit Sent(msg.sender, receiver, amount); //log info - sender, receiver, amount
+    }
+
+    // address public sender;
+
+    // mission: we want our cryptoToken to mint tokens
+    // we want a datatype for storing integers (tokens)
+    // how do we store information code:
+    // variables associated with their types
+    // we can use the unit (unassigned integer) variable
+
+    // in programming we have datatypes to store and change data
+    // and we can create them by explicity declaring them in solidity
+
+
+}
+
+contract LearningSolidity {
+
+
+}
